@@ -1,18 +1,39 @@
+---
+title: Qwen Agent Lab
+emoji: 📚
+colorFrom: blue
+colorTo: indigo
+sdk: gradio
+sdk_version: 5.49.1
+app_file: app.py
+pinned: false
+short_description: Bound vs pluggable KB agents on Qwen-Agent
+python_version: "3.12"
+---
+
 # qwen-agent-lab
 
-基于 [Qwen-Agent](https://github.com/QwenLM/Qwen-Agent) 的可复现实验仓库：两套 Gradio UI + 中文教程。
+基于 [Qwen-Agent](https://github.com/QwenLM/Qwen-Agent)（Apache-2.0）的可复现实验：固定绑定 / 可插拔知识库 Agent + 中文教程。
 
-> **不要**把本机克隆的官方 `D:\Qwen-Agent` 整仓（含 `.venv`、workspace 缓存）推到 GitHub。  
-> 本仓库只放演示代码与文档；框架通过 `pip install` 安装。
+> **不要**把本机克隆的官方 `Qwen-Agent` 整仓（含 `.venv`）推到 GitHub/HF。本仓是薄封装 + 文档，框架用 `pip install`。
 
 ## 两套 UI
 
 | 入口 | 模式 | 说明 |
 |------|------|------|
-| `apps/app_bound_kb.py` | **固定绑定** | 启动时 `files=` 绑定 `kb/`，不上传也能问 |
-| `apps/app_pluggable_kb.py` | **可插拔** | 不传 `files=`，网页上传/清空会话即装卸知识 |
+| `app.py`（Spaces / 推荐） | **两个助手同页** | 「固定知识库」+「可插拔知识库」可切换 |
+| `apps/app_bound_kb.py` | **固定绑定** | `files=` → `kb/` |
+| `apps/app_pluggable_kb.py` | **可插拔** | 网页上传，清空会话即卸下 |
 
-公网演示：两个入口都使用 `WebUI(...).run(share=True)`，终端会打印 Gradio 临时公网链接（通常约 72 小时）。
+### Hugging Face Space
+
+1. 在 Space **Settings → Secrets** 添加 `DASHSCOPE_API_KEY`（不要写进代码）。  
+2. 本页即 Gradio 应用入口（`app.py`）。  
+3. 硬件用免费 **CPU basic** 即可（调用云端千问 API，不占本地 GPU）。
+
+### 本机临时公网
+
+`apps/*.py` 可用 `share=True`（需 Gradio frpc）；链接约 72 小时。
 
 ## 快速开始（Windows PowerShell）
 
