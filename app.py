@@ -55,8 +55,9 @@ def build_pluggable() -> Assistant:
 def main() -> None:
     if not os.getenv("DASHSCOPE_API_KEY"):
         raise RuntimeError(
-            "Missing DASHSCOPE_API_KEY. In Hugging Face Space settings, "
-            "add it under Secrets (not in source code)."
+            "Missing DASHSCOPE_API_KEY. "
+            "On Render: Service → Environment → Add DASHSCOPE_API_KEY → Save → Manual Deploy. "
+            "Do not commit the key to Git."
         )
     # Spaces / Render 等由平台提供公网地址；端口优先读环境变量 PORT
     port = int(os.getenv("PORT", "7860"))
