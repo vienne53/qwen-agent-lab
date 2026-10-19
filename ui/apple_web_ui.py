@@ -12,6 +12,16 @@ from qwen_agent.llm.schema import Message
 
 from agents_factory import DEFAULT_CFG, build_agents, cfg_summary
 
+# 页面上可点选的 DashScope 模型（可在下面「自定义」里手填其它名）
+MODEL_CHOICES = [
+    "qwen-plus-latest",
+    "qwen-plus",
+    "qwen-turbo",
+    "qwen-turbo-latest",
+    "qwen-max",
+    "qwen-max-latest",
+]
+
 
 class AppleWebUI(WebUI):
     """WebUI + 知识库说明 + 高级设置（可热更新 Agent）。"""
@@ -20,6 +30,13 @@ class AppleWebUI(WebUI):
         super().__init__(agent, chatbot_config=chatbot_config)
         self.agent_cfg: Dict[str, Any] = {**DEFAULT_CFG, **(agent_cfg or {})}
         self._last_e2e_ms: Optional[float] = None
+
+    def _model_choices(self) -> List[str]:
+        cur = str(self.agent_cfg.get("model") or DEFAULT_CFG["model"])
+        choices = list(MODEL_CHOICES)
+        if cur and cur not in choices:
+            choices = [cur] + choices
+        return choices
 
     def _refresh_agent_meta(self) -> None:
         self.agent_config_list = [
@@ -163,17 +180,20 @@ class AppleWebUI(WebUI):
                                 value=0,
                                 interactive=True,
                             )
+                            model_dd = gr.Dropdown(
+                                choices=self._model_choices(),
+                                value=str(self.agent_cfg.get("model") or DEFAULT_CFG["model"]),
+                                label="模型",
+                                info="点选后点下方「应用设置」生效；不在列表可改自定义名",
+                                interactive=True,
+                                allow_custom_value=True,
+                            )
                             agent_info_block = self._create_agent_info_block()
                             agent_plugins_block = self._create_agent_plugins_block()
                             status_md = gr.Markdown(self._status_text())
                             apply_msg = gr.Markdown("")
 
-                            with gr.Accordion("高级设置（RAG / 模型）", open=False):
-                                model_tb = gr.Textbox(
-                                    label="模型名",
-                                    value=str(self.agent_cfg.get("model")),
-                                    info="DashScope 模型，如 qwen-plus-latest / qwen-turbo",
-                                )
+                            with gr.Accordion("高级设置（RAG）", open=True):
                                 max_ref = gr.Slider(
                                     2000,
                                     30000,
@@ -230,7 +250,32 @@ class AppleWebUI(WebUI):
                             )
                             apply_btn.click(
                                 fn=self.apply_settings,
-                                inputs=[model_tb, max_ref, page_size, keygen, searchers, agent_selector],
+                                inputs=[model_dd, max_ref, page_size, keygen, searchers, agent_selector],
+                                outputs=[
+                                    agent_selector,
+                                    agent_info_block,
+                                    agent_plugins_block,
+                                    status_md,
+                                    apply_msg,
+                                ],
+                                queue=False,
+                            )
+                            # 只改模型时也能一键应用
+                            model_dd.change(
+                                fn=lambda m, a: self.apply_settings(
+                                    m,
+                                    int(self.agent_cfg.get("max_ref_token", 12000)),
+                                    int(self.agent_cfg.get("parser_page_size", 500)),
+                                    str(self.agent_cfg.get("rag_keygen_strategy", "GenKeyword")),
+                                    list(
+                                        self.agent_cfg.get(
+                                            "rag_searchers",
+                                            ["keyword_search", "front_page_search"],
+                                        )
+                                    ),
+                                    a,
+                                ),
+                                inputs=[model_dd, agent_selector],
                                 outputs=[
                                     agent_selector,
                                     agent_info_block,
