@@ -12,3 +12,7 @@ examples/_run_bound_rag.py
 Thumbs.db
 *.log
 .gradio/
+**/__pycache__/
+*.pem
+.idea/
+.vscode/
