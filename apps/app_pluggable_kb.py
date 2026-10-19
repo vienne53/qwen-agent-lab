@@ -34,7 +34,7 @@ def main() -> None:
                 {"text": "列出文档中的三条要点"},
             ]
         },
-    ).run(share=True, server_name="0.0.0.0")
+    ).run(share=True, server_name="0.0.0.0", server_port=7863)
 
 
 if __name__ == "__main__":

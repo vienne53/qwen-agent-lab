@@ -42,7 +42,7 @@ def main() -> None:
                 {"text": "API Key 应该放在哪里？"},
             ]
         },
-    ).run(share=True, server_name="0.0.0.0")
+    ).run(share=True, server_name="0.0.0.0", server_port=7862)
 
 
 if __name__ == "__main__":
