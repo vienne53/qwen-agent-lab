@@ -1,0 +1,3 @@
+qwen-agent[rag,gui]>=0.0.34
+tqdm
+soundfile
