@@ -1,5 +1,5 @@
-# 框架：直接装「你自己的」GitHub fork（可含官方合并 + 本地改动）
-# 不是运行时去读官方 QwenLM 仓；也不是读你硬盘 D:\Qwen-Agent（除非本机另做 pip install -e）
+# 本机开发：装你自己的 fork（与 Render Dockerfile 同源）
+# Render 构建不走本文件，见 Dockerfile 里 git clone vienne53/Qwen-Agent
 qwen-agent[rag,gui] @ git+https://github.com/vienne53/Qwen-Agent.git@main
 tqdm
 soundfile
