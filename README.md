@@ -101,7 +101,8 @@ Windows 也可双击：`scripts\start_app.bat`
 
 - 固定知识库：不问上传，直接问「支持哪些文件类型？」应能答到 `kb/product_faq.md` 内容。  
 - 灵活知识库：上传任意 PDF/MD 后再问摘要。  
-- 右侧说明区**不是插件商店**，不能安装扩展；上传文件才是「灵活知识」的用法。
+- 右侧 **高级设置** 可改 RAG / 模型；状态行显示端到端耗时。  
+- 冒烟基准：`python scripts\run_rag_smoke_bench.py`（详见 `docs/跑通与基准示例.md`）。
 
 ## 目录
 

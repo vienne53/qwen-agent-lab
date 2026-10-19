@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -U pip && pip install --no-cache-dir -r requirements.txt
 
-COPY app.py .
+COPY app.py agents_factory.py ./
 COPY apps/ apps/
 COPY ui/ ui/
 COPY kb/ kb/
