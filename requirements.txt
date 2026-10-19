@@ -1,3 +1,5 @@
-qwen-agent[rag,gui]>=0.0.34
+# 框架：直接装「你自己的」GitHub fork（可含官方合并 + 本地改动）
+# 不是运行时去读官方 QwenLM 仓；也不是读你硬盘 D:\Qwen-Agent（除非本机另做 pip install -e）
+qwen-agent[rag,gui] @ git+https://github.com/vienne53/Qwen-Agent.git@main
 tqdm
 soundfile

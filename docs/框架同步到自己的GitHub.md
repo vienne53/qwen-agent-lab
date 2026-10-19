@@ -36,17 +36,22 @@ git push origin main
 
 （也可用 `git rebase upstream/main`，习惯 merge 即可。）
 
-## lab 想用「你 fork 里的框架」而不是 PyPI
+## lab 现在怎么用框架
 
-默认 lab 仍是 `pip install qwen-agent`（官方发版）。  
-若要强制用你 fork 上的代码，在 lab 的 `requirements.txt` 改成例如：
+lab 的 `requirements.txt` **已经指向你的 fork**：
 
 ```text
 qwen-agent[rag,gui] @ git+https://github.com/vienne53/Qwen-Agent.git@main
 ```
 
-然后推 lab、让 Render 重建。  
-注意：Render 每次构建会拉你 fork；官方发版不会自动进 lab，除非你再改回 PyPI 或合并 upstream 后推 fork。
+含义：
+
+1. `pip install` / Render 构建时，从 **https://github.com/vienne53/Qwen-Agent** 拉代码并安装。  
+2. **不是**每次去读官方 `QwenLM/Qwen-Agent`。  
+3. **也不是**自动读本机 `D:\Qwen-Agent`；本机改完必须 `git push origin main` 到 fork，lab/Render 重建后才会用到。  
+4. 「官方包 / PyPI」是以前的默认（从 pip 网站下发布版）；现已改成跟你的 fork。
+
+流程：`官方 upstream → merge 进你本地 → push 到 vienne53/Qwen-Agent → lab/Render 装这份`。
 
 ## 换电脑
 
