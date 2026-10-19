@@ -1,11 +1,15 @@
 """固定绑定知识库的 Agent UI：启动时 files= 指向 kb/。"""
 
+import sys
 from pathlib import Path
 
 from qwen_agent.agents import Assistant
-from qwen_agent.gui import WebUI
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from ui import AppleWebUI
 KB_DIR = ROOT / "kb"
 KB_FILES = sorted(str(p) for p in KB_DIR.glob("*") if p.suffix.lower() in {".md", ".txt", ".pdf", ".docx"})
 
@@ -33,16 +37,18 @@ def build_bot() -> Assistant:
 
 def main() -> None:
     bot = build_bot()
-    WebUI(
+    AppleWebUI(
         bot,
         chatbot_config={
+            "user.name": "你",
+            "input.placeholder": "有问题尽管问…",
             "prompt.suggestions": [
                 {"text": "这份知识库支持哪些文件类型？"},
                 {"text": "固定绑定和可插拔有什么区别？"},
                 {"text": "API Key 应该放在哪里？"},
-            ]
+            ],
         },
-    ).run(share=True, server_name="0.0.0.0", server_port=7862)
+    ).run(share=False, server_name="0.0.0.0", server_port=7862)
 
 
 if __name__ == "__main__":

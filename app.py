@@ -1,10 +1,11 @@
-"""Hugging Face Spaces 入口：固定绑定 + 可插拔 两个助手（同一页面可切换）。"""
+"""公网入口：固定绑定 + 可插拔 两个助手（苹果风界面）。"""
 
 import os
 from pathlib import Path
 
 from qwen_agent.agents import Assistant
-from qwen_agent.gui import WebUI
+
+from ui import AppleWebUI
 
 ROOT = Path(__file__).resolve().parent
 KB_DIR = ROOT / "kb"
@@ -59,16 +60,17 @@ def main() -> None:
             "On Render: Service → Environment → Add DASHSCOPE_API_KEY → Save → Manual Deploy. "
             "Do not commit the key to Git."
         )
-    # Spaces / Render 等由平台提供公网地址；端口优先读环境变量 PORT
     port = int(os.getenv("PORT", "7860"))
-    WebUI(
+    AppleWebUI(
         [build_bound(), build_pluggable()],
         chatbot_config={
+            "user.name": "你",
+            "input.placeholder": "有问题尽管问，或附上文件…",
             "prompt.suggestions": [
                 {"text": "这份知识库支持哪些文件类型？"},
                 {"text": "固定绑定和可插拔有什么区别？"},
                 {"text": "请根据我上传的文档做摘要"},
-            ]
+            ],
         },
     ).run(share=False, server_name="0.0.0.0", server_port=port)
 

@@ -1,7 +1,15 @@
 """可插拔知识库的 Agent UI：不传 files=，由网页上传决定本轮知识。"""
 
+import sys
+from pathlib import Path
+
 from qwen_agent.agents import Assistant
-from qwen_agent.gui import WebUI
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from ui import AppleWebUI
 
 
 def build_bot() -> Assistant:
@@ -25,16 +33,18 @@ def build_bot() -> Assistant:
 
 def main() -> None:
     bot = build_bot()
-    WebUI(
+    AppleWebUI(
         bot,
         chatbot_config={
+            "user.name": "你",
+            "input.placeholder": "上传文件后提问…",
             "prompt.suggestions": [
                 {"text": "请根据我上传的文档做摘要"},
                 {"text": "文档里提到的关键定义是什么？"},
                 {"text": "列出文档中的三条要点"},
-            ]
+            ],
         },
-    ).run(share=True, server_name="0.0.0.0", server_port=7863)
+    ).run(share=False, server_name="0.0.0.0", server_port=7863)
 
 
 if __name__ == "__main__":
