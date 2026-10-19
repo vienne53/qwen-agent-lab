@@ -15,7 +15,7 @@ from ui import AppleWebUI
 def build_bot() -> Assistant:
     return Assistant(
         llm={"model": "qwen-plus-latest"},
-        name="可插拔知识库助手",
+        name="灵活知识库助手",
         description="请在输入框旁上传 PDF/Word/TXT 等；清空会话即卸下该知识。",
         system_message=(
             "你是文档助手。优先依据用户本轮上传的文件回答；"

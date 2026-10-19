@@ -13,7 +13,7 @@ python_version: "3.12"
 
 # qwen-agent-lab
 
-基于 [Qwen-Agent](https://github.com/QwenLM/Qwen-Agent)（Apache-2.0）的可复现实验：固定绑定 / 可插拔知识库 Agent + 中文教程。
+基于 [Qwen-Agent](https://github.com/QwenLM/Qwen-Agent)（Apache-2.0）的可复现实验：固定知识库 / 灵活知识库 Agent（苹果风 UI）+ 中文教程。
 
 **仓库地址：** https://github.com/vienne53/qwen-agent-lab  
 
@@ -80,7 +80,7 @@ export DASHSCOPE_API_KEY="你的密钥"
 
 ### 4. 启动演示
 
-推荐（两个助手同页：固定知识库 + 可插拔）：
+推荐（两个助手同页：固定知识库 + 灵活知识库）：
 
 ```bash
 python app.py
@@ -94,13 +94,14 @@ Windows 也可双击：`scripts\start_app.bat`
 
 | 脚本 / 命令 | 模式 |
 |-------------|------|
-| `python apps/app_bound_kb.py` 或 `scripts/start_bound.bat` | 固定绑定 `kb/` |
-| `python apps/app_pluggable_kb.py` 或 `scripts/start_pluggable.bat` | 可插拔（网页上传） |
+| `python apps/app_bound_kb.py` 或 `scripts/start_bound.bat` | 固定知识库 `kb/` |
+| `python apps/app_pluggable_kb.py` 或 `scripts/start_pluggable.bat` | 灵活知识库（网页上传） |
 
 ### 5. 验收
 
 - 固定知识库：不问上传，直接问「支持哪些文件类型？」应能答到 `kb/product_faq.md` 内容。  
-- 可插拔：上传任意 PDF/MD 后再问摘要。
+- 灵活知识库：上传任意 PDF/MD 后再问摘要。  
+- 右侧说明区**不是插件商店**，不能安装扩展；上传文件才是「灵活知识」的用法。
 
 ## 目录
 

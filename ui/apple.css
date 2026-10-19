@@ -1,147 +1,130 @@
-/* Apple-inspired shell for Qwen-Agent Gradio WebUI */
+/* Apple-inspired shell for Qwen-Agent Gradio UI */
+
 :root {
   --apple-bg: #f5f5f7;
-  --apple-surface: #ffffff;
-  --apple-ink: #1d1d1f;
+  --apple-panel: #ffffff;
+  --apple-text: #1d1d1f;
   --apple-secondary: #6e6e73;
-  --apple-line: rgba(0, 0, 0, 0.08);
   --apple-blue: #0071e3;
-  --apple-blue-hover: #0077ed;
+  --apple-line: rgba(0, 0, 0, 0.08);
   --apple-radius: 18px;
-  --apple-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
 }
 
 html, body, .gradio-container {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
-    "Helvetica Neue", "Segoe UI", sans-serif !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif !important;
   background: var(--apple-bg) !important;
-  color: var(--apple-ink) !important;
+  color: var(--apple-text) !important;
 }
 
 .gradio-container {
   max-width: 1180px !important;
   margin: 0 auto !important;
-  padding: 28px 20px 48px !important;
 }
 
-/* Hero brand strip */
+.apple-shell {
+  padding: 28px 12px 40px;
+}
+
 .apple-hero {
   text-align: center;
-  padding: 8px 12px 28px;
+  margin: 8px 0 28px;
 }
 
 .apple-hero h1 {
   margin: 0;
-  font-size: 2rem;
+  font-size: 40px;
   font-weight: 600;
   letter-spacing: -0.03em;
-  color: var(--apple-ink);
+  color: var(--apple-text);
 }
 
 .apple-hero p {
   margin: 10px 0 0;
-  font-size: 1.05rem;
+  font-size: 17px;
   color: var(--apple-secondary);
-  letter-spacing: -0.01em;
+  line-height: 1.5;
 }
 
-.container {
-  gap: 20px !important;
-}
-
-/* Panels */
-.container > div,
-.gr-block, .gr-form, .gr-panel,
-.block {
-  border-radius: var(--apple-radius) !important;
-}
-
-/* Chat area */
-[class*="chatbot"], .chatbot, .message-wrap {
-  background: var(--apple-surface) !important;
+.apple-panel {
+  background: var(--apple-panel) !important;
   border: 1px solid var(--apple-line) !important;
   border-radius: var(--apple-radius) !important;
-  box-shadow: var(--apple-shadow) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04) !important;
+  padding: 8px !important;
 }
 
-/* Sidebar cards */
 .bot_cover {
-  background: var(--apple-surface) !important;
-  border: 1px solid var(--apple-line) !important;
-  border-radius: var(--apple-radius) !important;
-  box-shadow: var(--apple-shadow) !important;
-  min-height: 220px !important;
-  padding: 28px 20px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 220px;
+  border: none;
+  background: transparent;
+  padding: 12px 8px 4px;
 }
 
-.bot_avatar, .bot_avatar img {
-  width: 72px !important;
-  height: 72px !important;
-  border-radius: 50% !important;
+.bot_avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
-.bot_name, .preview_header {
-  font-size: 1.15rem !important;
-  font-weight: 600 !important;
-  letter-spacing: -0.02em !important;
-  color: var(--apple-ink) !important;
+.bot_avatar img {
+  width: 72px;
+  height: 72px;
 }
 
-.bot_desp {
-  color: var(--apple-secondary) !important;
-  font-size: 0.92rem !important;
-  line-height: 1.45 !important;
+.bot_name {
+  margin-top: 14px;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
-/* Inputs & controls */
-button, .gr-button, button.primary {
-  border-radius: 980px !important;
-  font-weight: 500 !important;
-  letter-spacing: -0.01em !important;
+.bot_description {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--apple-secondary);
+  text-align: center;
+  line-height: 1.45;
+  max-width: 260px;
 }
 
-button.primary, .gr-button-primary {
+.kb-tip {
+  margin: 8px 4px 16px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #fbfbfd;
+  border: 1px solid var(--apple-line);
+  color: var(--apple-secondary);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.kb-tip strong {
+  color: var(--apple-text);
+  font-weight: 600;
+}
+
+.kb-tip .hint {
+  margin-top: 8px;
+  color: #86868b;
+  font-size: 12px;
+}
+
+/* Soften Gradio chrome */
+button.primary,
+.primary {
   background: var(--apple-blue) !important;
   border: none !important;
-  color: #fff !important;
-}
-
-button.primary:hover, .gr-button-primary:hover {
-  background: var(--apple-blue-hover) !important;
-}
-
-textarea, input, .gr-text-input, .gr-input, select {
-  border-radius: 14px !important;
-  border-color: var(--apple-line) !important;
-  background: var(--apple-surface) !important;
-}
-
-label, .label-wrap span {
-  color: var(--apple-secondary) !important;
-  font-size: 0.8rem !important;
-  font-weight: 500 !important;
-  letter-spacing: 0.02em !important;
-  text-transform: none !important;
-}
-
-/* Examples chips */
-.examples, .gr-examples {
-  background: transparent !important;
-}
-
-.examples table button, .example {
   border-radius: 980px !important;
-  border: 1px solid var(--apple-line) !important;
-  background: var(--apple-surface) !important;
-  box-shadow: none !important;
 }
 
-/* Soften footer / audio block */
-footer, .footer {
-  opacity: 0.45;
-}
-
-/* Hide loud borders from default Gradio */
-.dark {
-  /* keep light Apple look even if theme flips */
+footer,
+.svelte-1edrejt {
+  display: none !important;
 }

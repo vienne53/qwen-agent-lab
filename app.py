@@ -1,4 +1,4 @@
-"""公网入口：固定绑定 + 可插拔 两个助手（苹果风界面）。"""
+"""公网入口：固定知识库 + 灵活知识库（苹果风界面）。"""
 
 import os
 from pathlib import Path
@@ -35,11 +35,11 @@ def build_bound() -> Assistant:
     )
 
 
-def build_pluggable() -> Assistant:
+def build_flexible() -> Assistant:
     return Assistant(
         llm={"model": os.getenv("QWEN_MODEL", "qwen-plus-latest")},
-        name="可插拔知识库",
-        description="请在输入框旁上传文件；清空会话即卸下该知识。",
+        name="灵活知识库",
+        description="在输入框旁上传文件作为临时知识；清空会话即卸下。",
         system_message=(
             "你是文档助手。优先依据用户本轮上传的文件回答；"
             "若未上传或文件中没有依据，请明确说明，不要编造。"
@@ -62,13 +62,13 @@ def main() -> None:
         )
     port = int(os.getenv("PORT", "7860"))
     AppleWebUI(
-        [build_bound(), build_pluggable()],
+        [build_bound(), build_flexible()],
         chatbot_config={
             "user.name": "你",
-            "input.placeholder": "有问题尽管问，或附上文件…",
+            "input.placeholder": "有问题尽管问；灵活模式下可先上传文件…",
             "prompt.suggestions": [
                 {"text": "这份知识库支持哪些文件类型？"},
-                {"text": "固定绑定和可插拔有什么区别？"},
+                {"text": "固定知识库和灵活知识库有什么区别？"},
                 {"text": "请根据我上传的文档做摘要"},
             ],
         },
