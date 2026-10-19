@@ -1,0 +1,14 @@
+# Render Blueprint：连接本 GitHub 仓库后可一键创建公网 Web Service
+# 文档：https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: qwen-agent-lab
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: DASHSCOPE_API_KEY
+        sync: false
+      - key: QWEN_MODEL
+        value: qwen-plus-latest

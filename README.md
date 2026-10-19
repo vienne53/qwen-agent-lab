@@ -17,8 +17,18 @@ python_version: "3.12"
 
 **仓库地址：** https://github.com/vienne53/qwen-agent-lab  
 
-> GitHub **不能**像 Hugging Face Space 那样直接托管 Gradio 网页。演示方式是：克隆本仓 → 本机（或 Codespaces）启动 → 浏览器打开本地地址。  
 > **不要**把官方 `Qwen-Agent` 整仓（含 `.venv`）推上来；本仓通过 `pip` 安装依赖即可。
+
+### GitHub 能不能「部署成公网网页」？
+
+| 方式 | 能不能公网跑本项目 |
+|------|-------------------|
+| **GitHub Pages** | **不能**。只适合静态 HTML/JS，跑不了 Python + Gradio + 调千问 API。 |
+| **GitHub 仓库** | 存代码、换电脑 `clone`；**不是**应用服务器。 |
+| **Render / Railway 等**（连 GitHub） | **能**。从本仓自动构建 Docker，给一个 `https://xxx.onrender.com`。 |
+| **Hugging Face Space** | 能，但当前免费号创建 Gradio 可能要 PRO。 |
+
+下面「公网部署」用 **Render 连接本 GitHub 仓库**（免费档会休眠，醒来稍慢）。
 
 ## 换电脑：克隆即可跑通
 
@@ -109,14 +119,25 @@ LICENSE
 
 见 [`docs/Qwen-Agent-可复现教程.md`](docs/Qwen-Agent-可复现教程.md)。
 
-## 关于「GitHub 演示」与公网
+## 公网部署（推荐：Render 连 GitHub）
+
+1. 打开 https://render.com → 用 **GitHub 账号登录**，授权仓库 `vienne53/qwen-agent-lab`。  
+2. **New → Blueprint**，选本仓库（会读根目录 `render.yaml`）；或 **New → Web Service** → 选本仓 → Runtime 选 **Docker**。  
+3. 在 Environment 里添加密钥（不要写进代码）：  
+   - `DASHSCOPE_API_KEY` = 你的千问 Key  
+4. Deploy。完成后得到类似：`https://qwen-agent-lab.onrender.com`（名称以控制台为准）。  
+5. 免费实例一段时间无访问会休眠，下次打开可能要等 1 分钟冷启动。
+
+仓库已包含 `Dockerfile` + `render.yaml`，推送 `main` 后 Render 可自动重新部署。
+
+### 其它公网方式
 
 | 方式 | 说明 |
 |------|------|
-| **本仓 + 本机/另一台电脑** | 上面步骤，最稳 |
-| **GitHub Codespaces** | 网页打开本仓 → Code → Codespaces → 跑 `setup` + `python app.py` → Ports 里公开 7860 |
-| **Gradio share=True** | `apps/*.py` 可开临时公网链（约 72h，需能下载 frpc） |
-| **Hugging Face Space** | 当前免费账号创建 Gradio Space 可能需 [PRO](https://huggingface.co/pro)；代码已兼容 `app.py` |
+| **本机 / 另一台电脑** | `python app.py` → 局域网或自己的服务器反代 |
+| **GitHub Codespaces** | 临时演示：跑 `app.py` 后把 7860 端口 Public |
+| **Gradio share=True** | 临时链约 72 小时 |
+| **Hugging Face Space** | 可能需 [PRO](https://huggingface.co/pro) |
 
 ## 安全
 

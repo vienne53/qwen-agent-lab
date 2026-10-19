@@ -58,7 +58,8 @@ def main() -> None:
             "Missing DASHSCOPE_API_KEY. In Hugging Face Space settings, "
             "add it under Secrets (not in source code)."
         )
-    # Spaces 由平台提供公网地址，不要 share=True
+    # Spaces / Render 等由平台提供公网地址；端口优先读环境变量 PORT
+    port = int(os.getenv("PORT", "7860"))
     WebUI(
         [build_bound(), build_pluggable()],
         chatbot_config={
@@ -68,7 +69,7 @@ def main() -> None:
                 {"text": "请根据我上传的文档做摘要"},
             ]
         },
-    ).run(share=False, server_name="0.0.0.0", server_port=7860)
+    ).run(share=False, server_name="0.0.0.0", server_port=port)
 
 
 if __name__ == "__main__":
