@@ -459,7 +459,7 @@ python examples\assistant_rag.py
 - `D:\Qwen-Agent\qwen_agent\agents\group_chat.py`
 - `D:\Qwen-Agent\qwen_agent\agents\fncall_agent.py`（单 Agent 工具循环）
 
-### 9.2 结构（路由型，最常用面试口径）
+### 9.2 结构（路由型，最常用说明口径）
 
 ```text
 用户
@@ -601,7 +601,7 @@ Router
 
 | 路径 | 做法 | 持久？ | 适合 |
 |------|------|--------|------|
-| A. 开可选向量 | `rag_cfg` 里 `'rag_searchers': ['keyword_search', 'vector_search']`，并 `pip install langchain langchain_community faiss-cpu` | 否（临时 FAISS） | 面试演示「也能语义检索」 |
+| A. 开可选向量 | `rag_cfg` 里 `'rag_searchers': ['keyword_search', 'vector_search']`，并 `pip install langchain langchain_community faiss-cpu` | 否（临时 FAISS） | 对外说明演示「也能语义检索」 |
 | B. 继续用默认 BM25 | 不改，短文档 / 关键词明确场景往往够用 | 切片缓存在 `workspace` | 当前 Demo、标书材料问答 |
 | C. 自己接持久库 | 写自定义 Tool：查询时调 Milvus/Qdrant/ES；入库脚本另做 | 是 | 对标客户「企业知识库」 |
 
@@ -627,7 +627,7 @@ C 的说明口径：入库流水线（切块→embedding→写 Milvus）与问�
 | Agent / 多角色 | **强**（Router、GroupChat、源码可控） | 有，但是产品抽象，深度定制不如写代码 |
 | MCP | 官方示例直接挂 `mcpServers` | 也在接生态，看版本与插件 |
 | 方案选型 | 适合讲「我们能二次开发 / 嵌进现有系统」 | 适合讲「两周搭出带知识库的助手门户」 |
-| 学习/面试 Demo | 看源码、讲清 RAG+Agent loop | UI 点点就能出效果 |
+| 学习/对外说明 Demo | 看源码、讲清 RAG+Agent loop | UI 点点就能出效果 |
 
 **结论（可背）：**
 
@@ -636,7 +636,7 @@ C 的说明口径：入库流水线（切块→embedding→写 Milvus）与问�
 - 私有化方案常是：**Dify/自建 KB 管知识 + Agent 框架管编排与工具**；不是二选一互斥。  
 - 「没有默认 Milvus」≠「不如 Dify」；是 **品类不同**。拿 Agent 框架去比知识库平台的向量开箱能力，会误判。
 
-### 11.4 MCP 你能用在什么场景（结合私有化/面试）
+### 11.4 MCP 你能用在什么场景（结合私有化方案）
 
 MCP = 把外部系统做成标准工具，给 Agent 调。典型场景：
 
