@@ -38,16 +38,34 @@ def _rag_cfg(cfg: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
+def llm_cfg_for_model(model: str) -> Dict[str, Any]:
+    """组装某个 DashScope 模型对应的 llm 配置。
+
+    普通文本 / VL 模型只需 model；Qwen-Omni 全模态（可听音频）必须
+    显式指定 model_type='qwenomni_oai' + OpenAI 兼容 base_url，否则
+    框架会把 'qwen-omni-*' 当普通 qwen_dashscope 处理而丢失音频能力。
+    """
+    model = (model or "").strip()
+    if model.startswith("qwen-omni"):
+        return {
+            "model": model,
+            "model_type": "qwenomni_oai",
+            "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        }
+    return {"model": model}
+
+
 def build_agents(cfg: Dict[str, Any] | None = None) -> List[Assistant]:
     cfg = {**DEFAULT_CFG, **(cfg or {})}
     model = cfg.get("model") or DEFAULT_CFG["model"]
+    llm_cfg = llm_cfg_for_model(model)
     rag = _rag_cfg(cfg)
     kb_files = list_kb_files()
     if not kb_files:
         raise FileNotFoundError(f"kb/ is empty: {KB_DIR}")
 
     bound = Assistant(
-        llm={"model": model},
+        llm=dict(llm_cfg),
         name="固定知识库",
         description="已绑定仓库 kb/ 文档，无需上传也可问答。",
         system_message=(
@@ -58,7 +76,7 @@ def build_agents(cfg: Dict[str, Any] | None = None) -> List[Assistant]:
         rag_cfg=rag,
     )
     flexible = Assistant(
-        llm={"model": model},
+        llm=dict(llm_cfg),
         name="灵活知识库",
         description="在输入框旁上传文件作为临时知识；清空会话即卸下。",
         system_message=(

@@ -14,12 +14,23 @@ from agents_factory import DEFAULT_CFG, build_agents, cfg_summary
 
 # 页面上可点选的 DashScope 模型（可在下面「自定义」里手填其它名）
 MODEL_CHOICES = [
+    # 通用文本：均衡 / 轻量 / 旗舰
     "qwen-plus-latest",
     "qwen-plus",
     "qwen-turbo",
     "qwen-turbo-latest",
     "qwen-max",
     "qwen-max-latest",
+    # Qwen3 系列与长文本
+    "qwen3-max",
+    "qwen3-plus",
+    "qwen3-flash",
+    "qwen-long",
+    # 多模态：视觉（-vl 自动路由 / 音频见 omni）
+    "qwen-vl-max-latest",
+    "qwen-vl-plus-latest",
+    # 全模态（需要 qwenomni_oai model_type，见 agents_factory.llm_cfg_for_model）
+    "qwen-omni-turbo-latest",
 ]
 
 
